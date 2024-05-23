@@ -2,16 +2,23 @@ using System.Collections;
 using F8Framework.Core;
 using UnityEngine;
 
-public class GameLauncher : MonoBehaviour
+public abstract class GameLauncher : MonoBehaviour
 {
-    IEnumerator Start()
+    private IEnumerator Start()
+    {
+        RegisterSystemModules();
+        RegisterUserModules();
+        yield return StartGame();
+    }
+    
+    private void RegisterSystemModules()
     {
         // 初始化模块中心
         ModuleCenter.Initialize(this);
-        
+
         // 初始化版本
         FF8.HotUpdate = ModuleCenter.CreateModule<HotUpdateManager>();
-        
+
         // 按顺序创建模块，可按需添加
         FF8.Message = ModuleCenter.CreateModule<MessageManager>();
         FF8.Input = ModuleCenter.CreateModule<InputManager>(new DefaultInputHelper());
@@ -32,30 +39,28 @@ public class GameLauncher : MonoBehaviour
         FF8.SDK = ModuleCenter.CreateModule<SDKManager>();
         FF8.Download = ModuleCenter.CreateModule<DownloadManager>();
         FF8.LogWriter = ModuleCenter.CreateModule<F8LogWriter>();
-        
-        StartGame();
-        yield break;
     }
-    
-    // 开始游戏
-    public void StartGame()
-    {
-        
-    }
-    
-    void Update()
+
+    protected abstract void RegisterUserModules();
+
+    /// <summary>
+    /// 开始游戏
+    /// </summary>
+    protected abstract IEnumerator StartGame();
+
+    private void Update()
     {
         // 更新模块
         ModuleCenter.Update();
     }
-    
-    void LateUpdate()
+
+    private void LateUpdate()
     {
         // 更新模块
         ModuleCenter.LateUpdate();
     }
-    
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
         // 更新模块
         ModuleCenter.FixedUpdate();

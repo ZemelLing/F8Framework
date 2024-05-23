@@ -1,6 +1,7 @@
 namespace F8Framework.Core
 {
-    public static class FF8
+    // ReSharper disable once InconsistentNaming
+    public static partial class FF8
     {
         //相当于重命名
         /* ------------------------核心模块------------------------ */
@@ -44,162 +45,21 @@ namespace F8Framework.Core
         /* ------------------------可选模块------------------------ */
         // 热更新版本管理
         private static HotUpdateManager _hotUpdateManager;
-        
-        
+
+        #region Mono
+
         public static MessageManager Message
         {
             get
             {
-                if (_message == null)
+                if (!_message)
                     _message = ModuleCenter.CreateModule<MessageManager>();
                 return _message;
             }
             set
             {
-                if (_message == null)
+                if (!_message)
                     _message = value;
-            }
-        }
-
-        public static InputManager Input
-        {
-            get
-            {
-                if (_inputManager == null)
-                    _inputManager = ModuleCenter.CreateModule<InputManager>(new DefaultInputHelper());
-                return _inputManager;
-            }
-            set
-            {
-                if (_inputManager == null)
-                    _inputManager = value;
-            }
-        }
-        
-        public static StorageManager Storage
-        {
-            get
-            {
-                if (_storage == null)
-                    _storage = ModuleCenter.CreateModule<StorageManager>();
-                return _storage;
-            }
-            set
-            {
-                if (_storage == null)
-                    _storage = value;
-            }
-        }
-
-        public static TimerManager Timer
-        {
-            get
-            {
-                if (_timer == null)
-                    _timer = ModuleCenter.CreateModule<TimerManager>();
-                return _timer;
-            }
-            set
-            {
-                if (_timer == null)
-                    _timer = value;
-            }
-        }
-
-        public static ProcedureManager Procedure
-        {
-            get
-            {
-                if (_procedure == null)
-                    _procedure = ModuleCenter.CreateModule<ProcedureManager>();
-                return _procedure;
-            }
-            set
-            {
-                if (_procedure == null)
-                    _procedure = value;
-            }
-        }
-
-        public static NetworkManager Network
-        {
-            get
-            {
-                if (_networkManager == null)
-                    _networkManager = ModuleCenter.CreateModule<NetworkManager>();
-                return _networkManager;
-            }
-            set
-            {
-                if (_networkManager == null)
-                    _networkManager = value;
-            }
-        }
-        
-        public static FSMManager FSM
-        {
-            get
-            {
-                if (_fsm == null)
-                    _fsm = ModuleCenter.CreateModule<FSMManager>();
-                return _fsm;
-            }
-            set
-            {
-                if (_fsm == null)
-                    _fsm = value;
-            }
-        }
-
-        public static GameObjectPool GameObjectPool
-        {
-            get
-            {
-                if (_gameObjectPool == null)
-                {
-                    _gameObjectPool = ModuleCenter.CreateModule<GameObjectPool>();
-                    ModuleCenter.CreateModule<F8PoolGlobal>();
-                }
-                    
-                return _gameObjectPool;
-            }
-            set
-            {
-                if (_gameObjectPool == null)
-                {
-                    _gameObjectPool = value;
-                    ModuleCenter.CreateModule<F8PoolGlobal>();
-                }
-            }
-        }
-
-        public static AssetManager Asset
-        {
-            get
-            {
-                if (_asset == null)
-                    _asset = ModuleCenter.CreateModule<AssetManager>();
-                return _asset;
-            }
-            set
-            {
-                if (_asset == null)
-                    _asset = value;
-            }
-        }
-        
-        public static F8DataManager Config
-        {
-            get
-            {
-                if (_config == null)
-                    _config = ModuleCenter.CreateModule<F8DataManager>();
-                return _config;
-            }
-            set
-            {
-                if (_config == null)
-                    _config = value;
             }
         }
         
@@ -207,59 +67,14 @@ namespace F8Framework.Core
         {
             get
             {
-                if (_audio == null)
+                if (!_audio)
                     _audio = ModuleCenter.CreateModule<AudioManager>();
                 return _audio;
             }
             set
             {
-                if (_audio == null)
+                if (!_audio)
                     _audio = value;
-            }
-        }
-
-        public static Tween Tween
-        {
-            get
-            {
-                if (_tween == null)
-                    _tween = ModuleCenter.CreateModule<Tween>();
-                return _tween;
-            }
-            set
-            {
-                if (_tween == null)
-                    _tween = value;
-            }
-        }
-
-        public static UIManager UI
-        {
-            get
-            {
-                if (_ui == null)
-                    _ui = ModuleCenter.CreateModule<UIManager>();
-                return _ui;
-            }
-            set
-            {
-                if (_ui == null)
-                    _ui = value;
-            }
-        }
-
-        public static Localization Local
-        {
-            get
-            {
-                if (_localization == null)
-                    _localization = ModuleCenter.CreateModule<Localization>();
-                return _localization;
-            }
-            set
-            {
-                if (_localization == null)
-                    _localization = value;
             }
         }
         
@@ -267,60 +82,132 @@ namespace F8Framework.Core
         {
             get
             {
-                if (_sdkManager == null)
+                if (!_sdkManager)
                     _sdkManager = ModuleCenter.CreateModule<SDKManager>();
                 return _sdkManager;
             }
             set
             {
-                if (_sdkManager == null)
+                if (!_sdkManager)
                     _sdkManager = value;
             }
         }
         
-        public static DownloadManager Download
+        public static UIManager UI
         {
             get
             {
-                if (_downloadManager == null)
-                    _downloadManager = ModuleCenter.CreateModule<DownloadManager>();
-                return _downloadManager;
+                if (!_ui)
+                    _ui = ModuleCenter.CreateModule<UIManager>();
+                return _ui;
             }
             set
             {
-                if (_downloadManager == null)
-                    _downloadManager = value;
+                if (!_ui)
+                    _ui = value;
             }
+        }
+
+        #endregion
+
+        public static GameObjectPool GameObjectPool
+        {
+            get
+            {
+                if (_gameObjectPool != null) 
+                    return _gameObjectPool;
+                
+                _gameObjectPool = ModuleCenter.CreateModule<GameObjectPool>();
+                ModuleCenter.CreateModule<F8PoolGlobal>();
+                return _gameObjectPool;
+            }
+            set
+            {
+                if (_gameObjectPool != null) 
+                    return;
+                
+                _gameObjectPool = value;
+                ModuleCenter.CreateModule<F8PoolGlobal>();
+            }
+        }
+        
+        public static InputManager Input
+        {
+            get => _inputManager ??= ModuleCenter.CreateModule<InputManager>(new DefaultInputHelper());
+            set => _inputManager ??= value;
+        }
+        
+        public static StorageManager Storage
+        {
+            get => _storage ??= ModuleCenter.CreateModule<StorageManager>();
+            set => _storage ??= value;
+        }
+
+        public static TimerManager Timer
+        {
+            get => _timer ??= ModuleCenter.CreateModule<TimerManager>();
+            set => _timer ??= value;
+        }
+
+        public static ProcedureManager Procedure
+        {
+            get => _procedure ??= ModuleCenter.CreateModule<ProcedureManager>();
+            set => _procedure ??= value;
+        }
+
+        public static NetworkManager Network
+        {
+            get => _networkManager ??= ModuleCenter.CreateModule<NetworkManager>();
+            set => _networkManager ??= value;
+        }
+        
+        public static FSMManager FSM
+        {
+            get => _fsm ??= ModuleCenter.CreateModule<FSMManager>();
+            set => _fsm ??= value;
+        }
+
+        public static AssetManager Asset
+        {
+            get => _asset ??= ModuleCenter.CreateModule<AssetManager>();
+            set => _asset ??= value;
+        }
+        
+        public static F8DataManager Config
+        {
+            get => _config ??= ModuleCenter.CreateModule<F8DataManager>();
+            set => _config ??= value;
+        }
+
+        public static Tween Tween
+        {
+            get => _tween ??= ModuleCenter.CreateModule<Tween>();
+            set => _tween ??= value;
+        }
+
+        
+        public static Localization Local
+        {
+            get => _localization ??= ModuleCenter.CreateModule<Localization>();
+            set => _localization ??= value;
+        }
+        
+        public static DownloadManager Download
+        {
+            get => _downloadManager ??= ModuleCenter.CreateModule<DownloadManager>();
+            set => _downloadManager ??= value;
         }
         
         public static F8LogWriter LogWriter
         {
-            get
-            {
-                if (_logWriter == null)
-                    _logWriter = ModuleCenter.CreateModule<F8LogWriter>();
-                return _logWriter;
-            }
-            set
-            {
-                if (_logWriter == null)
-                    _logWriter = value;
-            }
+            get => _logWriter ??= ModuleCenter.CreateModule<F8LogWriter>();
+            set => _logWriter ??= value;
         }
         
         public static HotUpdateManager HotUpdate
         {
-            get
-            {
-                if (_hotUpdateManager == null)
-                    _hotUpdateManager = ModuleCenter.CreateModule<HotUpdateManager>();
-                return _hotUpdateManager;
-            }
-            set
-            {
-                if (_hotUpdateManager == null)
-                    _hotUpdateManager = value;
-            }
+            get => _hotUpdateManager ??= ModuleCenter.CreateModule<HotUpdateManager>();
+            set => _hotUpdateManager ??= value;
         }
     }
 }
