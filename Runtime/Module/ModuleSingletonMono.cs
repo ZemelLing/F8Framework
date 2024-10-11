@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace F8Framework.Core
 {
+    /// <summary>
+    /// 单例Mono模块
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class ModuleSingletonMono<T> : MonoBehaviour where T : class, IModule
     {
         private static T _instance;
