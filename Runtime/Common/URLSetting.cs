@@ -38,7 +38,7 @@ namespace F8Framework.Core
 #else
                 string strReturenPlatformName = "Unknown";
 #endif
-                    return strReturenPlatformName;
+                return strReturenPlatformName;
             }
             
         //读取资源的路径
